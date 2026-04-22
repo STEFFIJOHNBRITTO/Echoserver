@@ -58,6 +58,46 @@ server_address =('keerthi',2323)
 httpd = HTTPServer(server_address,MyServer)
 httpd.serve_forever()
 ```
+## Client code
+```
+import socket
+
+
+HOST = "127.0.0.1"  
+PORT = 65432  
+
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.connect((HOST, PORT))
+    s.sendall(b"Name: STEFFI J, Reg no: 212224220107, Date: April22")
+    data = s.recv(1024)
+
+
+print(f"Received {data!r}")
+
+```
+## Server code
+```
+import socket
+
+
+HOST = "127.0.0.1"
+PORT = 65432  
+
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((HOST, PORT))
+    s.listen()
+    conn, addr = s.accept()
+    with conn:
+        print(f"Connected by {addr}")
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                break
+            conn.sendall(data)
+
+```
 ##  Architecture Diagram
 
 ```bash
@@ -88,7 +128,11 @@ httpd.serve_forever()
 ## OUTPUT:
 ### CLIENT OUTPUT:
 
+<img width="870" height="373" alt="Screenshot 2026-04-22 093732" src="https://github.com/user-attachments/assets/292441bf-3b03-4129-8259-90c3b87a9ce6" />
+
 ### SERVER OUTPUT:
+
+<img width="879" height="364" alt="Screenshot 2026-04-22 093648" src="https://github.com/user-attachments/assets/ced2aefd-3af7-4649-aa0e-a091fb095dbc" />
 
 ## RESULT:
 The program is executed succesfully
